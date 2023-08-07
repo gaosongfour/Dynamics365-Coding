@@ -105,8 +105,13 @@ OrderContext.retrieveClient = function (clientId) {
 }
 
 OrderContext.retrieveOrderItems = function (orderId) {
-    const query = `?$select=new_orderitemid&$filter=_new_orderid_value eq ${orderId}`;
+    const query = `?$select=new_orderitemid,new_quantity&$filter=_new_orderid_value eq ${orderId}`;
     return Xrm.WebApi.retrieveMultipleRecords("new_orderitem", query);
+}
+
+OrderContext.retrieveShippingItems = function (orderId) {
+    const query = `?$select=new_shippingitemid,_new_orderitemid_value,new_shippedquantity&$filter=_new_orderid_value eq ${orderId}`;
+    return Xrm.WebApi.retrieveMultipleRecords("new_shippingitem", query);
 }
 
 OrderContext.submitOrder = function (entityId) {
@@ -131,4 +136,61 @@ OrderContext.submitOrder = function (entityId) {
             Xrm.Navigation.openAlertDialog({ text: error.message });
         }
     );
+}
+
+/**
+ * button Validate onClick event
+ * @param {} formContext 
+ */
+OrderContext.validateOrder = function (formContext) {
+    Xrm.Utility.showProgressIndicator("In Progress");
+    try {
+
+        const clientLookup = CrmFormContext.getLookupValue(formContext, "new_clientid");
+        if (clientLookup === null) throw new Error("Client is null");
+
+        const entityId = formContext.data.entity.getId();
+        var promiseList = [OrderContext.retrieveClient(clientLookup.id), OrderContext.retrieveOrderItems(entityId), OrderContext.retrieveShippingItems(entityId)];
+
+        Promise.all(promiseList).then(
+            function (resultList) {
+                console.log(resultList);
+                //Validate the client 
+                const clientEntity = resultList[0];
+                if (clientEntity.new_locked)
+                    throw new Error("Client is locked");
+
+                //Validate the order quantity against the shipment quantity
+                const orderItems = resultList[1].entities;
+                if (orderItems.length === 0)
+                    throw new Error("No order itmes");
+
+                const shippingItems = resultList[2].entities;
+                orderItems.forEach(orderItemEntity => {
+                    let shippedQuantity = shippingItems
+                        ?.filter(shippingItemEntity => shippingItemEntity._new_orderitemid_value === orderItemEntity.new_orderitemid)
+                        ?.reduce((acc, curr) => acc = curr.new_shippedquantity, 0,);
+                    console.log(`shippedQuantity=>${shippedQuantity}`);
+                    if (shippedQuantity > orderItemEntity.new_quantity)
+                        throw new Error("Order quantity can not be less than Shipped quantity");
+                });
+
+                Xrm.Utility.closeProgressIndicator();
+                Xrm.Navigation.openAlertDialog({ text: "Order Validation Passed!" });
+            },
+            function (error) {
+                Xrm.Utility.closeProgressIndicator();
+                Xrm.Navigation.openAlertDialog({ text: error?.message });
+            })
+            .catch(
+                function (error) {
+                    console.log("err catch");
+                    Xrm.Utility.closeProgressIndicator();
+                    Xrm.Navigation.openAlertDialog({ text: error?.message });
+                }
+            );
+    } catch (error) {
+        Xrm.Utility.closeProgressIndicator();
+        Xrm.Navigation.openAlertDialog({ text: error?.message });
+    }
 }
