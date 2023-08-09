@@ -28,6 +28,7 @@ OrderContext.onChange_clientid = function (executionContext) {
     }
 }
 
+//#region Submit Order
 /**
  * button Submit onClick event,we pass "PrimaryControl" as ribbon button parameter
  * @param {} formContext 
@@ -90,30 +91,6 @@ OrderContext.onClickBtnSubmit = function (formContext) {
         });
 }
 
-/**
- * button Submit enable rule, we pass "PrimaryControl" as ribbon button parameter
- * @param {} formContext 
- */
-OrderContext.enableRuleBtnSubmit = function (formContext) {
-    const orderStatus = formContext.getAttribute("new_orderstatus")?.getValue();
-    const formType = formContext.ui.getFormType();
-    return formType !== 1 && orderStatus === 10;
-}
-
-OrderContext.retrieveClient = function (clientId) {
-    return Xrm.WebApi.retrieveRecord("new_client", clientId, `?$select=new_locked`);
-}
-
-OrderContext.retrieveOrderItems = function (orderId) {
-    const query = `?$select=new_orderitemid,new_quantity&$filter=_new_orderid_value eq ${orderId}`;
-    return Xrm.WebApi.retrieveMultipleRecords("new_orderitem", query);
-}
-
-OrderContext.retrieveShippingItems = function (orderId) {
-    const query = `?$select=new_shippingitemid,_new_orderitemid_value,new_shippedquantity&$filter=_new_orderid_value eq ${orderId}`;
-    return Xrm.WebApi.retrieveMultipleRecords("new_shippingitem", query);
-}
-
 OrderContext.submitOrder = function (entityId) {
     //update the order status by calling webapi
     const data = {
@@ -138,6 +115,18 @@ OrderContext.submitOrder = function (entityId) {
     );
 }
 
+/**
+ * button Submit enable rule, we pass "PrimaryControl" as ribbon button parameter
+ * @param {} formContext 
+ */
+OrderContext.enableRuleBtnSubmit = function (formContext) {
+    const orderStatus = formContext.getAttribute("new_orderstatus")?.getValue();
+    const formType = formContext.ui.getFormType();
+    return formType !== 1 && orderStatus === 10;
+}
+//#endregion
+
+//#region Validate Order using Promise.all
 /**
  * button Validate onClick event
  * @param {} formContext 
@@ -194,3 +183,62 @@ OrderContext.validateOrder = function (formContext) {
         Xrm.Navigation.openAlertDialog({ text: error?.message });
     }
 }
+//#endregion
+
+//#region Validate Order using Async Await
+OrderContext.validateOrderAsync = async function (formContext) {
+    Xrm.Utility.showProgressIndicator("In Progress");
+    try {
+        const clientLookup = CrmFormContext.getLookupValue(formContext, "new_clientid");
+        if (clientLookup === null)
+            throw new Error("Client is null");
+
+        const entityId = formContext.data.entity.getId();
+
+        //Validate the client 
+        const clientEntity = await OrderContext.retrieveClient(clientLookup.id);
+        if (clientEntity.new_locked)
+            throw new Error("Client is locked");
+
+        //Validate the order quantity against the shipment quantity
+        const retrieveOrderItemsResult = await OrderContext.retrieveOrderItems(entityId);
+        const orderItems = retrieveOrderItemsResult.entities;
+        if (orderItems.length === 0)
+            throw new Error("No order itmes");
+
+        const shippingItemsResult = await OrderContext.retrieveShippingItems(entityId);
+        const shippingItems = shippingItemsResult.entities;
+        orderItems.forEach(orderItemEntity => {
+            let shippedQuantity = shippingItems
+                ?.filter(shippingItemEntity => shippingItemEntity._new_orderitemid_value === orderItemEntity.new_orderitemid)
+                ?.reduce((acc, curr) => acc = curr.new_shippedquantity, 0,);
+            console.log(`shippedQuantity=>${shippedQuantity}`);
+            if (shippedQuantity > orderItemEntity.new_quantity)
+                throw new Error("Order quantity can not be less than Shipped quantity");
+        });
+
+        Xrm.Utility.closeProgressIndicator();
+        Xrm.Navigation.openAlertDialog({ text: "Order Validation Passed!" });
+
+    } catch (error) {
+        Xrm.Utility.closeProgressIndicator();
+        Xrm.Navigation.openAlertDialog({ text: error?.message });
+    }
+}
+//#endregion
+
+//#region retrieve operations
+OrderContext.retrieveClient = function (clientId) {
+    return Xrm.WebApi.retrieveRecord("new_client", clientId, `?$select=new_locked`);
+}
+
+OrderContext.retrieveOrderItems = function (orderId) {
+    const query = `?$select=new_orderitemid,new_quantity&$filter=_new_orderid_value eq ${orderId}`;
+    return Xrm.WebApi.retrieveMultipleRecords("new_orderitem", query);
+}
+
+OrderContext.retrieveShippingItems = function (orderId) {
+    const query = `?$select=new_shippingitemid,_new_orderitemid_value,new_shippedquantity&$filter=_new_orderid_value eq ${orderId}`;
+    return Xrm.WebApi.retrieveMultipleRecords("new_shippingitem", query);
+}
+//#endregion
