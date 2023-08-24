@@ -25,15 +25,8 @@ namespace Crm.Plugin.AutoNumber
 
             try
             {
-                switch (targetEntity.LogicalName)
-                {
-                    case "new_order":
-                        var autoNumberService = new AutoNumberService();
-                        autoNumberService.SetNumber(service, targetEntity);
-                        break;
-                    default:
-                        throw new InvalidPluginExecutionException($"Unsupported AutoNumber entity {targetEntity.LogicalName}");
-                }
+                var autoNumberService = new AutoNumberService();
+                autoNumberService.SetNumber(service, targetEntity);
             }
             catch (FaultException<IOrganizationService> ex)
             {
