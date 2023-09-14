@@ -1,0 +1,8 @@
+﻿{
+  "crmUrl": "",
+  "crmAppId": "",
+  "userName": "",
+  "userPwd": "",
+  "redirectUri": "https://login.microsoftonline.com/common/oauth2/nativeclient",
+  "crmConnRawString": "AuthType=OAuth;Username={0};Password={1};Url={2};AppId={3};RedirectUri={4};LoginPrompt=Never;"
+}
