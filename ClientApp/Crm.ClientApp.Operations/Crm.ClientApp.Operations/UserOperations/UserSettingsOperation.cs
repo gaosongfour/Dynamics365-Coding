@@ -2,6 +2,8 @@
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using System.Collections.Generic;
+using Microsoft.Xrm.Sdk.Query;
+using System.Linq;
 
 namespace Crm.ClientApp.Operations.UserOperations
 {
@@ -10,6 +12,7 @@ namespace Crm.ClientApp.Operations.UserOperations
         public void Execute()
         {
             var userId = WhoAmI();
+            RetrieveUserSettings(userId);
             RetrieveUserLicense(userId);
         }
 
@@ -24,6 +27,35 @@ namespace Crm.ClientApp.Operations.UserOperations
                 Console.WriteLine($"{servicePlan.DisplayName}({servicePlan.Name})");
 
             return licenseInfo.ServicePlans;
+        }
+
+        public void RetrieveUserSettings(Guid userId)
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "usersettings",
+                ColumnSet = new ColumnSet(true),
+                Attributes = { "systemuserid" },
+                Values = { userId }
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            if (result.Entities.Count == 1)
+            {
+                var userSettingsEntity = result.Entities.First();
+                var text = $@"user settigns for user {userId}:
+currency symbol=>{userSettingsEntity.GetAttributeValue<string>("currencysymbol")}
+date format string=>{userSettingsEntity.GetAttributeValue<string>("dateformatstring")}
+decimal symbol=>{userSettingsEntity.GetAttributeValue<string>("decimalsymbol")}
+paging limit=>{userSettingsEntity.GetAttributeValue<int>("paginglimit")}
+time zone code=>{userSettingsEntity.GetAttributeValue<int>("timezonecode")}
+ui languageid=>{userSettingsEntity.GetAttributeValue<int>("uilanguageid")}";
+                Console.WriteLine(text);
+            }
+            else
+            {
+                Console.WriteLine($"user settigns for user {userId} not found");
+            }
         }
     }
 }
