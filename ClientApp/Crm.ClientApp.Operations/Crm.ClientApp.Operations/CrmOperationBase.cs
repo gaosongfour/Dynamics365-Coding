@@ -3,6 +3,9 @@ using Microsoft.Xrm.Tooling.Connector;
 using System.Configuration;
 using Crm.Common.CrmService;
 using Microsoft.Crm.Sdk.Messages;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
+using System.Linq;
 
 namespace Crm.ClientApp.Operations
 {
@@ -25,6 +28,22 @@ namespace Crm.ClientApp.Operations
 
             Console.WriteLine($"user connected=>{response.UserId}");
             return response.UserId;
+        }
+
+        protected Entity RetrieveLatestAccount()
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "account",
+                ColumnSet = new ColumnSet("name"),
+                Attributes = { "statecode" },
+                Values = { 0 },
+                Orders = { new OrderExpression("createdon", OrderType.Descending) },
+                TopCount = 1
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            return result.Entities.FirstOrDefault();
         }
     }
 }

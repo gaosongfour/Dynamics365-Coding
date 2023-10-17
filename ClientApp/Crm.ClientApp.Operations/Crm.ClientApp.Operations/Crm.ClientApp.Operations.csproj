@@ -136,8 +136,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="CrmOperationBase.cs" />
     <Compile Include="ICrmOperation.cs" />
+    <Compile Include="PrincipalAccessOperations\PrincipalAccessOperation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserOperations\UserSecurityOperation.cs" />

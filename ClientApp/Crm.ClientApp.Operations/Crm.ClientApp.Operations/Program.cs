@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Crm.ClientApp.Operations.UserOperations;
+using Crm.ClientApp.Operations.PrincipalAccessOperations;
 
 namespace Crm.ClientApp.Operations
 {
@@ -11,9 +12,19 @@ namespace Crm.ClientApp.Operations
     {
         static void Main(string[] args)
         {
-            ICrmOperation crmOperation = new UserSettingsOperation();
-            crmOperation.Execute();
+            //ICrmOperation crmOperation = new UserSecurityOperation();
+            ICrmOperation crmOperation = new PrincipalAccessOperationn();
 
+            try
+            {
+                crmOperation.Execute();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Console.WriteLine("The End");
             Console.ReadKey();
         }
     }
