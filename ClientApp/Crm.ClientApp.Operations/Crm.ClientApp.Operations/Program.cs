@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Crm.ClientApp.Operations.UserOperations;
-using Crm.ClientApp.Operations.PrincipalAccessOperations;
+using Crm.ClientApp.Operations.CrmOperations;
 
 namespace Crm.ClientApp.Operations
 {

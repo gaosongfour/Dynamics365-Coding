@@ -8,7 +8,7 @@ using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Crm.Sdk.Messages;
 using Crm.ClientApp.Operations.Helpers;
 
-namespace Crm.ClientApp.Operations.PrincipalAccessOperations
+namespace Crm.ClientApp.Operations.CrmOperations
 {
     public class PrincipalAccessOperationn : CrmOperationBase, ICrmOperation
     {

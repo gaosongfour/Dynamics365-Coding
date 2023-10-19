@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Xrm.Sdk.Query;
 using System.Linq;
 
-namespace Crm.ClientApp.Operations.UserOperations
+namespace Crm.ClientApp.Operations.CrmOperations
 {
     public class UserSettingsOperation : CrmOperationBase, ICrmOperation
     {

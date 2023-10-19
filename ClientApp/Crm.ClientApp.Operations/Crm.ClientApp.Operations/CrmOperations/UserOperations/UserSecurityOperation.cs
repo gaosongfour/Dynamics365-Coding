@@ -2,7 +2,7 @@
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk;
 
-namespace Crm.ClientApp.Operations.UserOperations
+namespace Crm.ClientApp.Operations.CrmOperations
 {
     public class UserSecurityOperation : CrmOperationBase, ICrmOperation
     {
