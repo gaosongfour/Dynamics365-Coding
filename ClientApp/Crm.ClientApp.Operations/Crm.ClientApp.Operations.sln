@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Common.CrmService", "Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.ClientApp.Operations", "Crm.ClientApp.Operations\Crm.ClientApp.Operations.csproj", "{B5602F11-9E47-46F9-B9F1-B4DCC5DB610F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.Common", "Crm.Common\Crm.Common.csproj", "{371D936F-3B6D-4383-BC6B-0AE0F1C57E43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B5602F11-9E47-46F9-B9F1-B4DCC5DB610F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5602F11-9E47-46F9-B9F1-B4DCC5DB610F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5602F11-9E47-46F9-B9F1-B4DCC5DB610F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{371D936F-3B6D-4383-BC6B-0AE0F1C57E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{371D936F-3B6D-4383-BC6B-0AE0F1C57E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{371D936F-3B6D-4383-BC6B-0AE0F1C57E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{371D936F-3B6D-4383-BC6B-0AE0F1C57E43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
