@@ -30,6 +30,7 @@ namespace Crm.ClientApp.Operations
             return response.UserId;
         }
 
+        #region Retrieve Test Records
         protected Entity RetrieveLatestAccount()
         {
             var query = new QueryByAttribute
@@ -45,5 +46,22 @@ namespace Crm.ClientApp.Operations
             var result = crmServiceClient.RetrieveMultiple(query);
             return result.Entities.FirstOrDefault();
         }
+
+        protected Entity RetrieveLatestContact()
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "contact",
+                ColumnSet = new ColumnSet("fullname"),
+                Attributes = { "statecode" },
+                Values = { 0 },
+                Orders = { new OrderExpression("createdon", OrderType.Descending) },
+                TopCount = 1
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            return result.Entities.FirstOrDefault();
+        }
+        #endregion
     }
 }
