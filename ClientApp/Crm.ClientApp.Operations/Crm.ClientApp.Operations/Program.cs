@@ -9,7 +9,8 @@ namespace Crm.ClientApp.Operations
         {
             //ICrmOperation crmOperation = new UserSecurityOperation();
             //ICrmOperation crmOperation = new PrincipalAccessOperationn();
-            ICrmOperation crmOperation = new BasicCRUDOperation();
+            //ICrmOperation crmOperation = new BasicCRUDOperation();
+            ICrmOperation crmOperation = new RetrieveMultipleOperation();
 
             try
             {

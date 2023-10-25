@@ -78,6 +78,22 @@ namespace Crm.Common
             }
             return attributeInfo;
         }
-        #endregion        
+        #endregion
+
+        #region Print entity collection
+        /// <summary>
+        /// Print entity collection
+        /// </summary>
+        /// <param name="entityCollection"></param>
+        /// <param name="displayAttributeName">string type AttributeName name to display, default value "name"</param>
+        public static void PrintEntityCollection(this EntityCollection entityCollection, string displayAttributeName = "name")
+        {
+            if (entityCollection == null) throw new ArgumentNullException("entityCollection can not be null");
+
+            Console.WriteLine($"Total {entityCollection.EntityName} => {entityCollection.Entities.Count} ");
+            foreach (var entity in entityCollection.Entities)
+                Console.WriteLine($"{entity.LogicalName}({entity.Id})=>{entity.GetAttributeValue<string>(displayAttributeName)}");
+        }
+        #endregion
     }
 }
