@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrmOperations\CRUDOperations\BasicCRUDOperation.cs" />
+    <Compile Include="CrmOperations\CRUDOperations\FetchXmlAggregationOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\FetchXmlOperations.cs" />
     <Compile Include="CrmOperations\CRUDOperations\RetrieveMultipleOperation.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
