@@ -12,7 +12,8 @@ namespace Crm.ClientApp.Operations
             //ICrmOperation crmOperation = new BasicCRUDOperation();
             // ICrmOperation crmOperation = new RetrieveMultipleOperation();
             //ICrmOperation crmOperation = new FetchXmlOperations();
-            ICrmOperation crmOperation = new FetchXmlAggregationOperation();
+            //ICrmOperation crmOperation = new FetchXmlAggregationOperation();
+            ICrmOperation crmOperation = new RetrieveMultipleUsingPagingOperation();
 
             try
             {
