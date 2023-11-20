@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CrmOperations\ConcurrencyOperations\ConcurrencyOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\BasicCRUDOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\FetchXmlAggregationOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\FetchXmlOperations.cs" />
