@@ -10,12 +10,13 @@ namespace Crm.ClientApp.Operations
             //ICrmOperation crmOperation = new UserSecurityOperation();
             //ICrmOperation crmOperation = new PrincipalAccessOperationn();
             //ICrmOperation crmOperation = new BasicCRUDOperation();
-            // ICrmOperation crmOperation = new RetrieveMultipleOperation();
+            //ICrmOperation crmOperation = new RetrieveMultipleOperation();
             //ICrmOperation crmOperation = new FetchXmlOperations();
             //ICrmOperation crmOperation = new FetchXmlAggregationOperation();
             //ICrmOperation crmOperation = new RetrieveMultipleUsingPagingOperation();
             //ICrmOperation crmOperation = new RetrieveWithRelatedDataOperation();
-            ICrmOperation crmOperation = new ConcurrencyOperation();
+            //ICrmOperation crmOperation = new ConcurrencyOperation();
+            ICrmOperation crmOperation = new ExecuteMultipleOperation();
 
             try
             {
