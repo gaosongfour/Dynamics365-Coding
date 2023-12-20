@@ -62,6 +62,38 @@ namespace Crm.ClientApp.Operations
             var result = crmServiceClient.RetrieveMultiple(query);
             return result.Entities.FirstOrDefault();
         }
+
+        protected Entity RetrieveLastestClient()
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "new_client",
+                ColumnSet = new ColumnSet("new_name"),
+                Attributes = { "statecode" },
+                Values = { 0 },
+                Orders = { new OrderExpression("createdon", OrderType.Descending) },
+                TopCount = 1
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            return result.Entities.FirstOrDefault();
+        }
+
+        protected Entity RetrieveLastestFactory()
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "new_factory",
+                ColumnSet = new ColumnSet("new_name"),
+                Attributes = { "statecode" },
+                Values = { 0 },
+                Orders = { new OrderExpression("createdon", OrderType.Descending) },
+                TopCount = 1
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            return result.Entities.FirstOrDefault();
+        }
         #endregion
     }
 }

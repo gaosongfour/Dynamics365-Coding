@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrmOperations\BatchOperations\ExecuteMultipleOperation.cs" />
+    <Compile Include="CrmOperations\BatchOperations\ExecuteTransactionOperation.cs" />
     <Compile Include="CrmOperations\ConcurrencyOperations\ConcurrencyOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\BasicCRUDOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\FetchXmlAggregationOperation.cs" />
