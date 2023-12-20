@@ -16,7 +16,8 @@ namespace Crm.ClientApp.Operations
             //ICrmOperation crmOperation = new RetrieveMultipleUsingPagingOperation();
             //ICrmOperation crmOperation = new RetrieveWithRelatedDataOperation();
             //ICrmOperation crmOperation = new ConcurrencyOperation();
-            ICrmOperation crmOperation = new ExecuteMultipleOperation();
+            //ICrmOperation crmOperation = new ExecuteMultipleOperation();
+            ICrmOperation crmOperation = new ExecuteTransactionOperation();
 
             try
             {
