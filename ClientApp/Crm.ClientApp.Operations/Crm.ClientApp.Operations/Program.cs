@@ -17,7 +17,8 @@ namespace Crm.ClientApp.Operations
             //ICrmOperation crmOperation = new RetrieveWithRelatedDataOperation();
             //ICrmOperation crmOperation = new ConcurrencyOperation();
             //ICrmOperation crmOperation = new ExecuteMultipleOperation();
-            ICrmOperation crmOperation = new ExecuteTransactionOperation();
+            //ICrmOperation crmOperation = new ExecuteTransactionOperation();
+            ICrmOperation crmOperation = new SendEmailOperation();
 
             try
             {

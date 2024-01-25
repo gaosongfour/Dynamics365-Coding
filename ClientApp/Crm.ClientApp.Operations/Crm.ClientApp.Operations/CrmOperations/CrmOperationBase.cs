@@ -95,5 +95,30 @@ namespace Crm.ClientApp.Operations
             return result.Entities.FirstOrDefault();
         }
         #endregion
+
+        #region Get Entity Record Url
+        /// <summary>
+        /// Get Crm Record Url
+        /// </summary>
+        /// <param name="entityName">entity logical name</param>
+        /// <param name="entityId">entity id</param>
+        /// <returns></returns>
+        protected string GetCrmRecordUrl(string entityName, string entityId)
+        {
+            var baseUrl = crmServiceClient.CrmConnectOrgUriActual.Authority;
+            return $"https://{baseUrl}/main.aspx?etn={entityName}&pagetype=entityrecord&id=%7B{entityId}%7D ";
+        }
+
+        /// <summary>
+        ///  Get Crm Record Url
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        protected string GetCrmRecordUrl(Entity entity)
+        {
+            var baseUrl = crmServiceClient.CrmConnectOrgUriActual.Authority;
+            return $"https://{baseUrl}/main.aspx?etn={entity.LogicalName}&pagetype=entityrecord&id=%7B{entity.Id}%7D ";
+        }
+        #endregion
     }
 }

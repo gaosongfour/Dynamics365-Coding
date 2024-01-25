@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CrmOperations\ActivityOperations\SendEmailOperation.cs" />
     <Compile Include="CrmOperations\BatchOperations\ExecuteMultipleOperation.cs" />
     <Compile Include="CrmOperations\BatchOperations\ExecuteTransactionOperation.cs" />
     <Compile Include="CrmOperations\ConcurrencyOperations\ConcurrencyOperation.cs" />
@@ -169,7 +170,11 @@
       <Name>Crm.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Templates\EmailTemplates\SendEmailTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
