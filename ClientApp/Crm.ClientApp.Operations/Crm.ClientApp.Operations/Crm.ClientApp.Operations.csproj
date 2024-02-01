@@ -136,11 +136,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CrmOperations\ActivityOperations\SendEmailOperation.cs" />
+    <Compile Include="CrmOperations\BatchOperations\ExecuteMultipleOperation.cs" />
+    <Compile Include="CrmOperations\BatchOperations\ExecuteTransactionOperation.cs" />
+    <Compile Include="CrmOperations\ConcurrencyOperations\ConcurrencyOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\BasicCRUDOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\FetchXmlAggregationOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\FetchXmlOperations.cs" />
     <Compile Include="CrmOperations\CRUDOperations\RetrieveMultipleOperation.cs" />
     <Compile Include="CrmOperations\CRUDOperations\RetrieveMultipleUsingPagingOperation.cs" />
+    <Compile Include="CrmOperations\CRUDOperations\RetrieveWithRelatedDataOperation.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="CrmOperations\CrmOperationBase.cs" />
     <Compile Include="CrmOperations\ICrmOperation.cs" />
@@ -165,7 +170,11 @@
       <Name>Crm.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Templates\EmailTemplates\SendEmailTemplate.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

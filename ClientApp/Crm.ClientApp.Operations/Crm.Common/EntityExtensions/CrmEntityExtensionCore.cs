@@ -8,6 +8,28 @@ namespace Crm.Common
     /// </summary>
     public static class CrmEntityExtensionCore
     {
+        #region Crm Entity
+        /// <summary>
+        /// create a new entity keeping the same entity id and type,  with option if copy the row version to this new entity
+        /// </summary>
+        /// <param name="sourceEntity"></param>
+        /// <param name="copyRowVersion">optional, if copy the row version to this new entity, default value false</param>
+        /// <returns></returns>
+        public static Entity NewEntity(this Entity sourceEntity, bool copyRowVersion = false)
+        {
+            var newEntity = new Entity(sourceEntity.LogicalName, sourceEntity.Id);
+
+            if (copyRowVersion)
+            {
+                if (string.IsNullOrEmpty(sourceEntity.RowVersion))
+                    throw new ArgumentNullException("Row Version is not provided for sourceEntity");
+
+                newEntity.RowVersion = sourceEntity.RowVersion;
+            }
+            return newEntity;
+        }
+        #endregion
+
         #region Crm Entity Attribute Extension Methods
         /// <summary>
         /// Get Crm Entity formatted attribute value, if entity does not contains attribute, return null

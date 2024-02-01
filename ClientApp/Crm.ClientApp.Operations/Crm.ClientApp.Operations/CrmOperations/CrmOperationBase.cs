@@ -62,6 +62,63 @@ namespace Crm.ClientApp.Operations
             var result = crmServiceClient.RetrieveMultiple(query);
             return result.Entities.FirstOrDefault();
         }
+
+        protected Entity RetrieveLastestClient()
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "new_client",
+                ColumnSet = new ColumnSet("new_name"),
+                Attributes = { "statecode" },
+                Values = { 0 },
+                Orders = { new OrderExpression("createdon", OrderType.Descending) },
+                TopCount = 1
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            return result.Entities.FirstOrDefault();
+        }
+
+        protected Entity RetrieveLastestFactory()
+        {
+            var query = new QueryByAttribute
+            {
+                EntityName = "new_factory",
+                ColumnSet = new ColumnSet("new_name"),
+                Attributes = { "statecode" },
+                Values = { 0 },
+                Orders = { new OrderExpression("createdon", OrderType.Descending) },
+                TopCount = 1
+            };
+
+            var result = crmServiceClient.RetrieveMultiple(query);
+            return result.Entities.FirstOrDefault();
+        }
+        #endregion
+
+        #region Get Entity Record Url
+        /// <summary>
+        /// Get Crm Record Url
+        /// </summary>
+        /// <param name="entityName">entity logical name</param>
+        /// <param name="entityId">entity id</param>
+        /// <returns></returns>
+        protected string GetCrmRecordUrl(string entityName, string entityId)
+        {
+            var baseUrl = crmServiceClient.CrmConnectOrgUriActual.Authority;
+            return $"https://{baseUrl}/main.aspx?etn={entityName}&pagetype=entityrecord&id=%7B{entityId}%7D ";
+        }
+
+        /// <summary>
+        ///  Get Crm Record Url
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        protected string GetCrmRecordUrl(Entity entity)
+        {
+            var baseUrl = crmServiceClient.CrmConnectOrgUriActual.Authority;
+            return $"https://{baseUrl}/main.aspx?etn={entity.LogicalName}&pagetype=entityrecord&id=%7B{entity.Id}%7D ";
+        }
         #endregion
     }
 }
