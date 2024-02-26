@@ -99,6 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityManagement\AllEntities\PostDeleteOperation.cs" />
+    <Compile Include="EntityManagement\AllEntities\PreDeleteOperation.cs" />
     <Compile Include="EntityManagement\Order\OrderMaxAmountCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
