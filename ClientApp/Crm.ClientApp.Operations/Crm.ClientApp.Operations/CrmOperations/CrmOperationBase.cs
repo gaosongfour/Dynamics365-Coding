@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xrm.Tooling.Connector;
-using System.Configuration;
 using Crm.Common.CrmService;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
@@ -13,11 +12,12 @@ namespace Crm.ClientApp.Operations
     {
         protected CrmServiceClient crmServiceClient;
 
+        protected CrmConfig crmConfig;
+
         public CrmOperationBase()
         {
-            var crmConfigPath = ConfigurationManager.AppSettings["crmConfigPath"];
-            var crmConnString = CrmConfigHelper.GetCrmConnString(crmConfigPath);
-            crmServiceClient = CrmServiceHelper.GetCrmServiceClient(crmConnString);
+            crmConfig = CrmConfigHelper.GetCrmConfig();
+            crmServiceClient = CrmServiceHelper.GetCrmServiceClient(crmConfig.crmConnString);
             Console.WriteLine($"crm connected to {crmServiceClient.ConnectedOrgFriendlyName}");
         }
 

@@ -1,6 +1,7 @@
 ﻿{
   "crmUrl": "",
   "crmAppId": "",
+  "discoveryServiceUri": "https://globaldisco.crm.dynamics.com/api/discovery/v2.0/Instances",
   "userName": "",
   "userPwd": "",
   "redirectUri": "https://login.microsoftonline.com/common/oauth2/nativeclient",
