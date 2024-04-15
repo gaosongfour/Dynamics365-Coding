@@ -2,6 +2,7 @@
 using Microsoft.Xrm.Sdk.Query;
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Crm.Common.Query
 {
@@ -43,6 +44,42 @@ namespace Crm.Common.Query
         {
             query.PageInfo = new PagingInfo { Count = pageSize, PageNumber = pageNumber, PagingCookie = pageCookie };
             return query;
+        }
+        #endregion
+
+        #region RetrieveAllRecords using FetchXml
+        /// <summary>
+        /// Retrieve all the records using FetchXml
+        /// </summary>
+        /// <param name="crmService"></param>
+        /// <param name="fetchXml">fetchxml query</param>
+        /// <param name="pageSize">optional, default 5000</param>
+        /// <returns></returns>
+        public static List<Entity> RetrieveAllRecordsByFetchXml(this IOrganizationService crmService, string fetchXml, int pageSize = 5000)
+        {
+            var list = new List<Entity>();
+
+            var page = 1;
+
+            var fetchNode = XElement.Parse(fetchXml);
+            fetchNode.SetAttributeValue("page", page);
+            fetchNode.SetAttributeValue("count", pageSize);
+
+            while (true)
+            {
+                var result = crmService.RetrieveMultiple(new FetchExpression(fetchNode.ToString()));
+                Console.WriteLine($"Current Page Number {page}| Page Size {pageSize} | Current Page Records Count {result.Entities.Count}");
+                list.AddRange(result.Entities);
+                if (!result.MoreRecords)
+                {
+                    break;
+                }
+
+                fetchNode.SetAttributeValue("page", page++);
+                fetchNode.SetAttributeValue("paging-cookie", result.PagingCookie);
+            }
+
+            return list;
         }
         #endregion
     }

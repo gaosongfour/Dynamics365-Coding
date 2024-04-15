@@ -9,6 +9,7 @@ namespace Crm.ClientApp.Operations.CrmOperations
         public void Execute()
         {
             RetrieveAllAccounts();
+            RetrieveAllAccountsByFetchXml();
         }
 
         private void RetrieveAllAccounts()
@@ -29,6 +30,25 @@ namespace Crm.ClientApp.Operations.CrmOperations
             };
 
             var entityList = crmServiceClient.RetrieveAllRecords(basicQuery);
+            Console.WriteLine($"Total accounts=>{entityList.Count}");
+        }
+
+        private void RetrieveAllAccountsByFetchXml()
+        {
+            var fetchXml = @"
+            <fetch mapping='logical'>
+              <entity name='account'>
+                <attribute name='name'/>
+                <filter>
+                  <condition attribute='statecode' operator='eq' value='0'/>
+                  <condition attribute='createdon' operator='last-x-years' value='10'/>
+                </filter>
+                <order attribute='createdon' descending='true'/>
+              </entity>
+            </fetch>
+            ";
+
+            var entityList = crmServiceClient.RetrieveAllRecordsByFetchXml(fetchXml);
             Console.WriteLine($"Total accounts=>{entityList.Count}");
         }
     }
