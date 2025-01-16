@@ -19,7 +19,8 @@ namespace Crm.ClientApp.Operations
             //ICrmOperation crmOperation = new ExecuteMultipleOperation();
             //ICrmOperation crmOperation = new ExecuteTransactionOperation();
             //ICrmOperation crmOperation = new SendEmailOperation();
-            ICrmOperation crmOperation = new OrganizationOperation();
+            //ICrmOperation crmOperation = new OrganizationOperation();
+            ICrmOperation crmOperation = new FieldSecurityOperation();
 
             try
             {
